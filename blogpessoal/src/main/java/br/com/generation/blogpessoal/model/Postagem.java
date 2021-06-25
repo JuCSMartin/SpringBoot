@@ -13,19 +13,19 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "postagem")
+@Table(name = "tb_postagens")
 public class Postagem {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@NotNull
-	@Size(min = 5, max = 100)
+	@NotNull (message = "O título é obrigatório!")
+	@Size(min = 5, max = 100, message = "É necessário que o título tenha entre 5 e 100 caracteres.")
 	private String titulo;
 	
 	@NotNull
-	@Size(min = 10, max = 500)
+	@Size(min = 10, max = 500, message = "É necessário que o texto tenha entre 10 e 500 caracteres.")
 	private String texto;
 	
 	@Temporal(TemporalType.TIMESTAMP)
