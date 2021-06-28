@@ -27,7 +27,7 @@ public class PostagemController {
 	private PostagemRepository postagemRepository;
 
 	@GetMapping
-	public ResponseEntity<List<Postagem>> GetAll (){
+	public ResponseEntity<List<Postagem>> GetAll() {
 		return ResponseEntity.ok(postagemRepository.findAll());
 	}
 	
