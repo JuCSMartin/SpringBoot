@@ -49,7 +49,7 @@ public class TemaController {
 	}
 	
 	@PutMapping
-	public ResponseEntity<Tema> puttTema(@RequestBody Tema tema) {
+	public ResponseEntity<Tema> putTema(@RequestBody Tema tema) {
 		return ResponseEntity.status(HttpStatus.OK).body(temaRepository.save(tema));
 	}
 	
