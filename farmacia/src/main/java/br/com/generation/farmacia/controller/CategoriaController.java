@@ -1,6 +1,7 @@
 package br.com.generation.farmacia.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import br.com.generation.farmacia.model.Categoria;
 import br.com.generation.farmacia.repository.CategoriaRepository;
@@ -27,7 +29,7 @@ public class CategoriaController {
 	private CategoriaRepository categoriaRepository;
 	
 	@GetMapping
-	private ResponseEntity<List<Categoria>> getAll(){
+	public ResponseEntity<List<Categoria>> getAll(){
 		
 		return ResponseEntity.ok(categoriaRepository.findAll());
 	}
@@ -57,8 +59,13 @@ public class CategoriaController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public void getId(@PathVariable long id) {
-		
-		categoriaRepository.deleteById(id);
+	public void delete (@PathVariable long id) {
+		Optional<Categoria> categoria = categoriaRepository.findById(id);
+		if(categoria.isPresent()) {
+			categoriaRepository.deleteById(id);
+		} 
+		else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não encontrada!", null);
+		}
 	}
 }
