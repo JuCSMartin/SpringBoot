@@ -9,23 +9,35 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-	@Entity
-	@Table (name = "tb_temas")
-	public class Tema {
-	
+@Entity
+@Table(name = "tb_usuario")
+public class Usuario {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@NotNull (message = "O atributo Descrição deve ser preenchido.")
-	private String descricao;
+	@NotNull
+	@Size (min = 2, max = 100)
+	private String nome;
 	
-	@OneToMany(mappedBy = "tema", cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("tema")
+	@NotNull
+	@Size (min = 2, max = 100)
+	@Email
+	private String usuario;
+	
+	@NotNull
+	@Size (min = 5)
+	private String senha;
+	
+	@OneToMany (mappedBy = "usuario", cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties("usuario")
 	private List <Postagem> postagem;
 
 	public long getId() {
@@ -36,12 +48,28 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 		this.id = id;
 	}
 
-	public String getDescricao() {
-		return descricao;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public List<Postagem> getPostagem() {
