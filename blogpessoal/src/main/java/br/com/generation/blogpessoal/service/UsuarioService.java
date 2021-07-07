@@ -3,7 +3,7 @@ package br.com.generation.blogpessoal.service;
 import java.nio.charset.Charset;
 import java.util.Optional;
 
-import org.apache.tomcat.util.codec.binary.Base64;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,7 +23,8 @@ public class UsuarioService {
 	public Optional<Usuario> cadastrarUsuario(Usuario usuario) {
 		
 		if (usuarioRepository.findByUsuario(usuario.getUsuario()).isPresent())
-			return null;
+			throw new ResponseStatusException(
+					HttpStatus.BAD_REQUEST, "Usuário já existe!", null);
 		
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
@@ -69,6 +70,8 @@ public class UsuarioService {
 				return usuarioLogin;
 			}
 		}
-		return null;
+		
+		throw new ResponseStatusException(
+				HttpStatus.UNAUTHORIZED, "Usuário ou senha inválidos!", null);
 	}
 }
