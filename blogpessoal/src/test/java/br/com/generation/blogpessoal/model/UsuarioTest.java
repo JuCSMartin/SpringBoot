@@ -1,8 +1,7 @@
 package br.com.generation.blogpessoal.model;
 
-import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;

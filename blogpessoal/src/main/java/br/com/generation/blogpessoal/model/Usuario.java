@@ -28,18 +28,29 @@ public class Usuario {
 	private String nome;
 	
 	@NotNull
-	@Size (min = 2, max = 100)
+	@Size (min = 5, max = 100)
 	@Email
 	private String usuario;
 	
 	@NotNull
-	@Size (min = 5)
+	@Size (min = 5, max = 100)
 	private String senha;
 	
 	@OneToMany (mappedBy = "usuario", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("usuario")
 	private List <Postagem> postagem;
+	
+	public Usuario() {}
 
+	public Usuario(Long id, @Size(min = 2, max = 100) String nome, @NotNull @Size(min = 2, max = 100) String usuario, 
+			@Email @NotNull @Size(min = 5, max = 100) String senha) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.usuario = usuario;
+		this.senha = senha;
+	}
+	
 	public long getId() {
 		return id;
 	}

@@ -1,9 +1,10 @@
 package br.com.generation.blogpessoal.repository;
 
-import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -49,15 +50,15 @@ public class UsuarioRepositoryTest {
 	
 	@Test
 	@DisplayName("💾Retorna o nome")
-	public void findFirstByUsuarioRetornaUsuario() throws Exception {
-		Usuario usuario = usuarioRepository.findByUsuario("João da Silva");
-		assertTrue(usuario.getNome().equals("João da Silva"));
+	public void findByUsuarioRetornaUsuario() {
+		Optional<Usuario> usuario = usuarioRepository.findByUsuario("João da Silva");
+		assertTrue(usuario.get().getUsuario().equals("João da Silva"));
 	}
 	
 	@Test
     @DisplayName("💾 Retorna 3 usuarios")
-    public void findAllByUsuarioContainingIgnoreCaseRetornaTresUsuarios() {
-        List<Usuario> listaDeUsuarios = usuarioRepository.findAllByUsuarioContainingIgnoreCase("Silva");
+    public void findAllByNomeContainingIgnoreCaseRetornaTresUsuarios() {
+        List<Usuario> listaDeUsuarios = usuarioRepository.findAllByNomeContainingIgnoreCase("Silva");
         assertEquals(3, listaDeUsuarios.size());
   }
 
