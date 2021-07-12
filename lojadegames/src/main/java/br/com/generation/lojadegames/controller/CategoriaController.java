@@ -1,6 +1,7 @@
 package br.com.generation.lojadegames.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,12 +15,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import br.com.generation.lojadegames.model.Categoria;
 import br.com.generation.lojadegames.repository.CategoriaRepository;
 
 @RestController
-@RequestMapping("/categoria")
+@RequestMapping("/categorias")
 @CrossOrigin (origins = "*", allowedHeaders = "*")
 public class CategoriaController {
 	
@@ -55,7 +57,13 @@ public class CategoriaController {
 	
 	@DeleteMapping("/{id}")
 	public void deleteCategoria(@PathVariable long id) {
-		categoriaRepository.deleteById(id);
+		Optional<Categoria> produto = categoriaRepository.findById(id);
+		
+		if (produto.isPresent()) {
+			categoriaRepository.deleteById(id);
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "O id que você digitou não existe, por isso não pode ser deletado!");
+		}
 	}
 	
 }
