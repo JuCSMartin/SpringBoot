@@ -19,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import br.com.generation.blogpessoal.model.Postagem;
 import br.com.generation.blogpessoal.repository.PostagemRepository;
+import br.com.generation.blogpessoal.service.PostagemService;
 
 @RestController
 @RequestMapping("/postagens")
@@ -27,6 +28,9 @@ public class PostagemController {
 	
 	@Autowired
 	private PostagemRepository postagemRepository;
+	
+	@Autowired
+	private PostagemService postagemService;
 
 	@GetMapping
 	public ResponseEntity<List<Postagem>> GetAll() {
@@ -53,6 +57,16 @@ public class PostagemController {
 	@PutMapping
 	public ResponseEntity<Postagem> putPostagem (@RequestBody Postagem postagem) {
 		return ResponseEntity.status(HttpStatus.OK).body(postagemRepository.save(postagem));
+	}
+	
+	@PutMapping("/curtir/{id}")
+	public ResponseEntity<Postagem> putCurtirPostagemId (@PathVariable Long id) {
+		return ResponseEntity.status(HttpStatus.OK).body(postagemService.curtir(id));
+	}
+	
+	@PutMapping("/descurtir/{id}")
+	public ResponseEntity<Postagem> putDescurtirPostagemId (@PathVariable Long id) {
+		return ResponseEntity.status(HttpStatus.OK).body(postagemService.descurtir(id));
 	}
 	
 	@DeleteMapping("/{id}")

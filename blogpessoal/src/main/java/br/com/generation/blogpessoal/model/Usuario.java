@@ -10,30 +10,31 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "tb_usuario")
+@Table(name = "tb_usuarios")
 public class Usuario {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@NotNull
-	@Size (min = 2, max = 100)
+	@NotNull (message = "O atributo nome é obrigatório!")
+	@Size (min = 2, max = 100, message = "O atributo nome deve conter entre 2 e 100 caracteres.")
 	private String nome;
 	
-	@NotNull
-	@Size (min = 5, max = 100)
-	@Email
+	@NotNull (message = "O atributo usuário é obrigatório!")
+	@NotBlank (message = "O atributo usuário não pode ser deixado vazio!")
+	@Email (message = "O atributo usuário deve ser um email!")
 	private String usuario;
 	
-	@NotNull
-	@Size (min = 5, max = 100)
+	@NotNull (message = "O atributo senha é obrigatório!")
+	@Size (min = 8, message = "O atributo senha deve ter no mínimo 8 caracteres.")
 	private String senha;
 	
 	@OneToMany (mappedBy = "usuario", cascade = CascadeType.REMOVE)
@@ -42,9 +43,7 @@ public class Usuario {
 	
 	public Usuario() {}
 
-	public Usuario(Long id, @Size(min = 2, max = 100) String nome, @NotNull @Size(min = 2, max = 100) String usuario, 
-			@Email @NotNull @Size(min = 5, max = 100) String senha) {
-		super();
+	public Usuario(Long id, String nome, String usuario, String senha) {
 		this.id = id;
 		this.nome = nome;
 		this.usuario = usuario;

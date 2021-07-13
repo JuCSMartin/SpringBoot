@@ -11,13 +11,14 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-	@Entity
-	@Table(name = "tb_postagens")
-	public class Postagem {
+@Entity
+@Table(name = "tb_postagens")
+public class Postagem {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,12 +28,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 	@Size(min = 5, max = 100, message = "É necessário que o título tenha entre 5 e 100 caracteres.")
 	private String titulo;
 	
-	@NotNull
+	@NotNull (message = "O atributo texto é obriatório!")
 	@Size(min = 10, max = 500, message = "É necessário que o texto tenha entre 10 e 500 caracteres.")
 	private String texto;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date = new java.sql.Date(System.currentTimeMillis());
+	
+	@PositiveOrZero
+	private int curtidas;
 	
 	@ManyToOne
 	@JsonIgnoreProperties("postagem")
@@ -88,6 +92,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public int getCurtidas() {
+		return curtidas;
+	}
+
+	public void setCurtidas(int curtidas) {
+		this.curtidas = curtidas;
 	}
 
 }

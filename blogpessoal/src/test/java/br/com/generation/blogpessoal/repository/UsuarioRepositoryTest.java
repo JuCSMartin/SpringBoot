@@ -29,36 +29,38 @@ public class UsuarioRepositoryTest {
 		
 		Usuario usuario = new Usuario(0L, "João da Silva", "joao@email.com.br", "123456");
 		
-		if(usuarioRepository.findByUsuario(usuario.getUsuario()) != null)
+		if(!usuarioRepository.findByUsuario(usuario.getUsuario()).isPresent())
 			usuarioRepository.save(usuario);
         
         usuario = new Usuario(0L, "Manuel da Silva", "manuel@email.com.br", "13465278");
 
-        if(usuarioRepository.findByUsuario(usuario.getUsuario()) != null)
+        if(!usuarioRepository.findByUsuario(usuario.getUsuario()).isPresent())
             usuarioRepository.save(usuario);
 
         usuario = new Usuario(0L, "Fred da Silva", "frederico@email.com.br", "13465278");
 
-        if(usuarioRepository.findByUsuario(usuario.getUsuario()) != null)
+        if(!usuarioRepository.findByUsuario(usuario.getUsuario()).isPresent())
             usuarioRepository.save(usuario);
 
        	usuario = new Usuario(0L, "Paulo Antunes", "paulo@email.com.br", "13465278");
 
-        if(usuarioRepository.findByUsuario(usuario.getUsuario()) != null)
+        if(!usuarioRepository.findByUsuario(usuario.getUsuario()).isPresent())
             usuarioRepository.save(usuario);
 	}
 	
 	@Test
 	@DisplayName("💾Retorna o nome")
-	public void findByUsuarioRetornaUsuario() {
-		Optional<Usuario> usuario = usuarioRepository.findByUsuario("João da Silva");
-		assertTrue(usuario.get().getUsuario().equals("João da Silva"));
+	public void findByNomeRetornaNome() {
+		
+		Usuario usuario = usuarioRepository.findByNome("João da Silva");
+		assertTrue(usuario.getNome().equals("João da Silva"));
 	}
 	
 	@Test
     @DisplayName("💾 Retorna 3 usuarios")
     public void findAllByNomeContainingIgnoreCaseRetornaTresUsuarios() {
-        List<Usuario> listaDeUsuarios = usuarioRepository.findAllByNomeContainingIgnoreCase("Silva");
+       
+		List <Usuario> listaDeUsuarios = usuarioRepository.findAllByNomeContainingIgnoreCase("Silva");
         assertEquals(3, listaDeUsuarios.size());
   }
 

@@ -17,14 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.generation.blogpessoal.model.Tema;
 import br.com.generation.blogpessoal.repository.TemaRepository;
+import br.com.generation.blogpessoal.service.TemaService;
 
 @RestController
-@RequestMapping("/tema")
+@RequestMapping("/temas")
 @CrossOrigin (origins = "*", allowedHeaders = "*")
 public class TemaController {
 
 	@Autowired
 	private TemaRepository temaRepository;
+	
+	@Autowired
+	private TemaService temaService;
 	
 	@GetMapping
 	public ResponseEntity<List<Tema>> GetAll() {
@@ -43,6 +47,11 @@ public class TemaController {
 		return ResponseEntity.ok(temaRepository.findAllByDescricaoContainingIgnoreCase(descricao));
 	}
 	
+	@GetMapping("/trendtopics")
+	public ResponseEntity<List<Tema>> getTrendTopics() {
+		return ResponseEntity.ok(temaService.trendTopics());
+	}
+	
 	@PostMapping
 	public ResponseEntity<Tema> postTema(@RequestBody Tema tema) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(temaRepository.save(tema));
@@ -57,4 +66,5 @@ public class TemaController {
 	public void deleteTema(@PathVariable long id) {
 		temaRepository.deleteById(id);
 	}
+	
 }
